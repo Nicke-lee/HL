@@ -1,6 +1,7 @@
 import math
 import random
 
+
 # checks users enter yes (y) or no (n)
 def yes_no(question):
     while True:
@@ -38,7 +39,7 @@ Good Luck.
 # checks for an integer with optional upper /
 # lower limits and an optional exit code for infinite mode
 # / quitting game
-def int_check(question, low=None, high=None, exit_code =None):
+def int_check(question, low=None, high=None, exit_code=None):
 
     # if any integer is allowed...
     if low is None and high is None:
@@ -74,7 +75,8 @@ def int_check(question, low=None, high=None, exit_code =None):
                 print(error)
 
             # if response is valid, return it
-            return response
+            else:
+                return response
 
         except ValueError:
             print(error)
@@ -91,7 +93,7 @@ def calc_guesses(low, high):
 
 # Main Routine Starts here
 
-# Intialise game variables
+# Initialise game variables
 mode = "regular"
 rounds_played = 0
 end_game = "no"
@@ -145,9 +147,9 @@ while rounds_played < num_rounds:
     # Rounds starts here
     # Set guesses used to zero at the start of each round
     guesses_used = 0
-    already_guesses = []
+    already_guessed = []
 
-    # Choose a 'secret' number between the low and high number
+    # choose a 'secret' number between the low and high number
     secret = random.randint(low_num, high_num)
 
     guess = ""
@@ -158,62 +160,59 @@ while rounds_played < num_rounds:
 
         # check that they don't want to quit
         if guess == "xxx":
-            # set end_game to use so that outer loop can be ...
+            # set end_game to use so that outer loop can be
             end_game = "yes"
             break
 
         # check that guess is not a duplicate
-        if guess in already_guesses:
-            print(f"You've already guessed {guess}. You've *still* used "
+        if guess is already_guessed:
+            print(f"You've already guessed {guess}, You've *still* used"
                   f"{guesses_used} / {guesses_allowed} guesses")
             continue
 
-        # if guess is not a duplicate. add it to the 'already guessed' list
+        # if guess is not a duplicate, add it to the 'already guesses' list
         else:
-            already_guesses.append(guess)
+            already_guessed.append(guess)
 
         # add one to the number of guesses used
         guesses_used += 1
 
-        # compare the user's guess with the secret number set up feedback statement
+        # compare the user's choice with the secret number set up feedback statement
 
         # if we have guesses left
         if guess < secret and guesses_used < guesses_allowed:
             feedback = (f"Too low, please try a higher number. "
-                        f"You've used {guesses_used} out of {guesses_allowed} guesses")
+                        f" you've used {guesses_used} out of {guesses_allowed} guesses")
         elif guess > secret and guesses_used < guesses_allowed:
-            feedback = (f"Too high, please try a lower number. "
-                        f"You've used {guesses_used} / {guesses_allowed} guesses")
+            feedback = (f"Too high, please try a lower number."
+                       f"You've used {guesses_used} out of {guesses_allowed} guesses")
 
         # when the secret number is guesses. we have three different feedback
-        # options (lucky / 'phew' / well done)
         elif guess == secret:
 
             if guesses_used == 1:
-                feedback = "🍀🍀 Lucky! You got it on the first guess. 🍀🍀"
+                feedback = "Lucky! you got it on the first guess."
             elif guesses_used == guesses_allowed:
-                feedback = f"Phew! You for it in {guesses_used} guesses"
+                feedback = f"Phew You got it in {guesses_used} guesses"
             else:
-                feedback = f"Well done! You guessed the secret number in {guesses_used} guesses"
+                feedback = F"Well done! You guesses the secret number in {guesses_used} guesses"
 
-        # if there are no guesses left!
+        # if there are no guesses left
         else:
             feedback = "Sorry - you have no more guesses. You lose this round!"
 
         # print feedback to user
         print(feedback)
 
-        # Additional Feedback (warn user that they are running out of guesses)
+        # additional feedback
         if guesses_used == guesses_allowed - 1:
-            print("\n💣💣💣Careful💣💣💣 You have one guesses left!\n")
+            print("Careful you have one more guess left")
 
-    print()
+        print()
 
-    # Round ends here
+        # Rounds end here
 
-
-
-    # if user has entered exit ode, end game!1
+    # If user has entered the exit code
     if end_game == "yes":
         break
 
@@ -233,8 +232,6 @@ while rounds_played < num_rounds:
 # before calculation stats
 if rounds_played > 0:
     # Game history / statistics area
-
-    print("all scores: ", all_scores)
 
     # Calculate statistics
     all_scores.sort()
