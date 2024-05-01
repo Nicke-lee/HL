@@ -24,7 +24,7 @@ def instructions():
 
 To begin, choose the number of rounds and either customise
 the game parameters or go with the default game (where the
-secret number will be between 1 and 100)
+secret number will be between 1 and 10)
 
 Then choose how many rounds you'd like to play <enter> for infinite mode.
 
@@ -115,7 +115,7 @@ if want_instructions == "yes":
 num_rounds = int_check("Rounds <enter for infinite>: ",
                        low=1, exit_code="")
 
-if num_rounds == "infinite":
+if num_rounds == "":
     mode = "infinite"
     num_rounds = 5
 
@@ -151,6 +151,7 @@ while rounds_played < num_rounds:
 
     # choose a 'secret' number between the low and high number
     secret = random.randint(low_num, high_num)
+    # print("spoiler alert: ", secret)
 
     guess = ""
     while guess != secret and guesses_used < guesses_allowed:
@@ -185,13 +186,13 @@ while rounds_played < num_rounds:
                         f" you've used {guesses_used} out of {guesses_allowed} guesses")
         elif guess > secret and guesses_used < guesses_allowed:
             feedback = (f"Too high, please try a lower number."
-                       f"You've used {guesses_used} out of {guesses_allowed} guesses")
+                        f"You've used {guesses_used} out of {guesses_allowed} guesses")
 
         # when the secret number is guesses. we have three different feedback
         elif guess == secret:
 
             if guesses_used == 1:
-                feedback = "Lucky! you got it on the first guess."
+                feedback = "🍀🍀Lucky! you got it on the first guess.🍀🍀"
             elif guesses_used == guesses_allowed:
                 feedback = f"Phew You got it in {guesses_used} guesses"
             else:
@@ -199,15 +200,14 @@ while rounds_played < num_rounds:
 
         # if there are no guesses left
         else:
-            feedback = "Sorry - you have no more guesses. You lose this round!"
+            feedback = "Sorry - you have no more guesses. You lose this round!☹️☹️"
 
         # print feedback to user
         print(feedback)
 
-        # additional feedback
-        if guesses_used == guesses_allowed - 1:
-            print("Careful you have one more guess left")
-
+        # additional feedback (warn users they are running out of guesses)
+        if guesses_used == guesses_allowed - 1 and guess != secret:
+            print("\nCareful you have one more guess left💣💣\n")
         print()
 
         # Rounds end here
@@ -241,7 +241,7 @@ if rounds_played > 0:
 
     # Output the statistics
     print("\n🍭🍭🍭 Statistics 🍭🍭🍭")
-    print(f"Best: {best_score} | Worst:{worst_score} | Average:{average_score}")
+    print(f"Best: {best_score} | Worst:{worst_score} | Average:{average_score:.2f}")
     print()
 
     # Display the game history on request
